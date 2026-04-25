@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/tasks.css" />
+
+    <title>Kanban</title>
+  </head>
+  <body>
+    <main>
+      <div class="top">
+        <span>KANBAN : Tasks</span>
+        <button id="nav-dropdown-btn">DROP</button>
+        <div class="account-drop-wrapper">
+          <button id="account-btn">Richard Chibuike -</button>
+          <div class="account-drop">
+            <ul>
+              <li>Profile</li>
+              <li>FAQ</li>
+              <li>Contact</li>
+              <li><a href="login.html">Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="left">
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="tasks.html">Tasks</a></li>
+          <li>Members</li>
+          <!-- <li>Learn</li> -->
+          <li><a href="login.html">Sign Out</a></li>
+        </ul>
+      </div>
+      <div class="mid">
+        <div class="mid-header">
+          <h1>Task Management</h1>
+          <!-- <button id="add-task-btn">+</button> -->
+        </div>
+        <!-- <div class="task-list"></div> -->
+      </div>
+    </main>
+    <!-- EXTRA NON-STRUCTURE -->
+    <div class="drop">
+      <ul>
+        <li>Dashboard</li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li>Members</li>
+        <li>Profile</li>
+        <li>Sign Out</li>
+      </ul>
+    </div>
+
+    <!-- UPDATE TASK POP UP -->
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Update Task</h2>
+          <button class="close-update-popup-btn">&times;</button>
+        </div>
+
+        <form class="modal-form">
+          <input id="task-id" name="task-id" style="display: none" />
+          <div>
+            <label for="task-title">Task Title</label>
+            <input name="task-title" type="text" id="task-title" required />
+          </div>
+          <div>
+            <label for="task-description">Task Description (Optional)</label>
+            <textarea id="task-description" name="task-description"></textarea>
+          </div>
+          <div>
+            <label for="task-status">Status</label>
+            <select name="task-status" id="task-status">
+              <option value="todo" selected>To Do</option>
+              <option value="ongoing">In Progress</option>
+              <option value="testing">Testing</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <button type="submit">Submit Task</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- DELETE POP UP -->
+    <!-- The Delete Confirmation Modal -->
+    <div class="delete-modal-overlay">
+      <div class="delete-modal-content">
+        <div class="delete-modal-header">
+          <h2>Confirm Deletion</h2>
+          <button class="close-delete-modal-btn">&times;</button>
+        </div>
+        <form id="deleteForm">
+             <p>
+          Are you sure you want to delete this task? This action cannot be
+          undone.
+        </p>
+        <input id="delete-task-id" name="delete-task-id" style="display: none" />
+        <div class="delete-modal-actions">
+          <button type="button" class="cancel-delete-btn">Cancel</button>
+          <button type="submit" class="confirm-delete-btn">Yes, Delete</button>
+        </div>
+
+        </form>
+       
+      </div>
+    </div>
+
+
+     <!-- The Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text">Loading...</div>
+        </div>
+    </div>
+
+    
+   
+    <span id="status-output"></span>
+  </body>
+   <script src="./scripts/skeleton.js"></script>
+    <script src="./scripts/profile.js" type="module"></script>
+</html>
