@@ -1,0 +1,630 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* COLORING */
+:root {
+  --bg-main: rgb(221, 221, 221);
+  --blue-accent: rgb(56, 132, 177);
+  --blue-dark: rgb(16, 64, 109);
+  --blue-light: rgb(75, 163, 235);
+  --text-primary: #ededed;
+  --text-secondary: #aaaaaa;
+  --danger: #ff3c78;
+  --success: #00ffaa;
+
+  --todo-color: #7952b3;
+  --in-progress-color: #ffc107;
+  --testing-color: #e55353;
+  --done-color: #21a366;
+  --text-dark: #333;
+  --text-light: #fff;
+  --bg-color: #f0f0f0;
+  --card-bg: #fff;
+  --border-color: #d3d3d3;
+}
+li a {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.top,
+.left {
+  background-color: var(--blue-dark);
+}
+
+button {
+  background-color: var(--blue-accent);
+  color: var(--text-primary);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+ 
+  color: var(--bg-main);
+  cursor: pointer;
+}
+
+html {
+  font-size: 16px;
+}
+html,
+body {
+  height: 100%;
+  overflow-y: hidden;
+}
+main {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 10% 90%;
+  row-gap: 1px;
+  grid-template-areas:
+    "top top"
+    "left mid";
+}
+.top {
+  /* background-color: red; */
+  height: 100%;
+  width: 100%;
+  grid-area: top;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.left {
+  /* background-color: blue; */
+  grid-area: left;
+}
+.mid {
+  /* background-color: green; */
+  grid-area: mid;
+
+  display: flex;
+  padding: 0.5rem 1rem;
+  flex-direction: column;
+  overflow-y: auto;
+  color: black;
+}
+/* extra-non-structure */
+.drop {
+  display: none;
+  width: 100%;
+  background-color: var(--blue-accent);
+  z-index: 10;
+}
+.drop.show {
+  display: flex;
+  height: 75%;
+  animation: showUp 0.5s ease;
+
+  overflow-y: hidden;
+  animation-fill-mode: forwards;
+}
+
+.drop > ul {
+  list-style-type: none;
+  /* border: 2px solid black; */
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+@keyframes showUp {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 75%;
+  }
+}
+@keyframes closeUp {
+  0% {
+    height: 75%;
+  }
+  100% {
+    height: 0%;
+  }
+}
+.account-drop-wrapper {
+  position: relative;
+}
+#account-btn {
+  display: block;
+  border: 0;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+.account-drop {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  right: 0;
+  border: 2px solid black;
+  background-color: var(--danger);
+
+  width: 20vh;
+  z-index: 10;
+
+  visibility: hidden;
+  transform: translateY(0.5rem);
+  opacity: 0;
+  transition: visibility 0.25s, transform 0.25s, opacity 0.25s;
+}
+.account-drop.show {
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
+}
+.account-drop > ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* end here */
+.left > ul {
+  list-style-type: none;
+  /* border: 2px solid black; */
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#nav-dropdown-btn {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  main {
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "top"
+      "mid";
+  }
+  .left {
+    display: none;
+  }
+  .drop {
+    position: fixed;
+    top: 10%;
+    left: 0;
+  }
+  .account-drop-wrapper {
+    display: none;
+  }
+  #nav-dropdown-btn {
+    display: block;
+  }
+}
+/* HOVER EFFECTS */
+.darken {
+  background-color: var(--blue-accent);
+}
+.drop ul,
+.left ul,
+.account-drop ul {
+  width: 100%;
+}
+.drop li,
+.left li {
+  width: 100%;
+  padding: 1rem;
+}
+.account-drop li {
+  padding: 0.5rem;
+}
+
+#status-output {
+  display: none;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0;
+  width: 200px;
+  text-align: center;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 0.5rem;
+}
+#status-output.success {
+  background-color: #00ffaa;
+  display: block;
+}
+#status-output.failed {
+  background-color: red;
+  display: block;
+}
+/* Styling for the task list */
+.task-list {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 2px solid var(--blue-accent);
+  margin-top: 1rem;
+}
+
+.task-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.task-row:last-child {
+  border-bottom: none;
+}
+
+.task-row label{
+  font-weight: bold;
+}
+.task-title {
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap; /* Allows icons to wrap if needed */
+  justify-content: flex-end; /* Align icons to the right */
+}
+
+.task-actions button {
+  background: none;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
+  min-width: fit-content; /* Prevents excessive shrinking */
+}
+
+.task-description.todo{
+  color: var(--todo-color);
+}
+.task-description.in-progress{
+color: var(--in-progress-color);
+}
+.task-description.testing{
+color: var(--testing-color);
+}
+.task-description.done{
+color: var(--done-color);
+}
+.task-actions .delete-btn {
+  color: var(--danger);
+}
+
+.task-actions .edit-btn {
+  color: var(--blue-accent);
+}
+
+.task-actions button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .task-row {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .task-row label{
+    display: none;
+  }
+  .task-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+/* ADD TASK POP UP  */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s, opacity 0.3s;
+}
+
+.modal-overlay.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: var(--bg-main);
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease-out;
+}
+
+.modal-overlay.show .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--blue-dark);
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.close-add-popup-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--blue-dark);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+}
+
+/* .close-add-popup-btn:hover {
+  color: var(--blue-accent);
+} */
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-form label {
+  color: var(--blue-dark);
+  font-weight: 500;
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--blue-light);
+  border-radius: 4px;
+  background-color: #fff;
+  color: var(--blue-dark);
+  font-family: inherit;
+}
+
+.modal-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modal-form button {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--blue-accent);
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* .modal-form button:hover {
+  background-color: var(--blue-light);
+} */
+
+/* delete modal */
+
+/* The modal overlay, which covers the entire screen */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+}
+
+/* Class to show the modal */
+.delete-modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* The modal content box */
+.delete-modal-content {
+  background-color: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+/* Animate the content when shown */
+.delete-modal-overlay.show .delete-modal-content {
+  transform: translateY(0);
+}
+
+/* Modal header for title and close button */
+.delete-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.delete-modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Close button styling */
+.close-delete-modal-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.close-delete-modal-btn:hover {
+  color: #555;
+}
+
+/* Confirmation message text */
+.delete-modal-content p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Button container */
+.delete-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Button base styling */
+.delete-modal-actions button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* "Cancel" button styling */
+.cancel-delete-btn {
+  background-color: #e0e0e0;
+  color: #555;
+  border: none;
+}
+
+.cancel-delete-btn:hover {
+  background-color: #d0d0d0;
+  transform: translateY(-1px);
+}
+
+/* "Yes, Delete" button styling */
+.confirm-delete-btn {
+  background-color: #dc3545; /* A standard red color */
+  color: #fff;
+  border: none;
+}
+
+.confirm-delete-btn:hover {
+  background-color: #c82333; /* Slightly darker red */
+  transform: translateY(-1px);
+}
+
+/* Placeholder button to open the modal for this example */
+.open-modal-btn {
+  padding: 1rem 2rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.open-modal-btn:hover {
+  background-color: #0056b3;
+}
+
+
+/* Loading Overlay Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            color: #333;
+            font-size: 1.2rem;
+        }
