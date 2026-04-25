@@ -1,11 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Kanban</title>
+  </head>
+  <body>
+    <main>
+      <div class="top">
+        <span>KANBAN</span>
+        <button id="nav-dropdown-btn">DROP</button>
+        <div class="account-drop-wrapper">
+          <button id="account-btn">Richard Chibuike -</button>
+          <div class="account-drop">
+            <ul>
+              <li><a href="profile.html">Profile</a></li>
+              <li>FAQ</li>
+              <li>Contact</li>
+              <li><a href="login.html">Sign Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="left">
+        <ul>
+          <li>Dashboard</li>
+          <li><a href="tasks.html">Tasks</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <!-- <li>Learn</li> -->
+          <li><a href="login.html">Sign Out</a></li>
+        </ul>
+      </div>
+      <div class="mid">
+        <div class="mid-header">
+          <h1>Task Overview</h1>
+          <button id="add-task-btn">+</button>
+        </div>
+
+        <div class="kanban-board">
+          <div class="kanban-column" id="to-do">
+            <h2 class="column-title to-do-header">TO DO</h2>
+            <div id="to-do-body" class="kanban-column-body"></div>
+          </div>
+          <div class="kanban-column" id="in-progress">
+            <h2 class="column-title in-progress-header">IN PROGRESS</h2>
+            <div id="in-progress-body" class="kanban-column-body"></div>
+          </div>
+          <div class="kanban-column" id="testing">
+            <h2 class="column-title testing-header">TESTING</h2>
+            <div id="testing-body" class="kanban-column-body"></div>
+          </div>
+          <div class="kanban-column" id="done">
+            <h2 class="column-title done-header">DONE</h2>
+            <div id="done-body" class="kanban-column-body"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- EXTRA NON-STRUCTURE -->
+    <div class="drop">
+      <ul>
+        <li>Dashboard</li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <!-- <li>Profile</li> -->
+        <li>Sign Out</li>
+      </ul>
+    </div>
+
+    <!-- ADD TASK POP UP -->
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add New Task</h2>
+          <button class="close-add-popup-btn">&times;</button>
+        </div>
+        <form class="modal-form">
+          <div>
+            <label for="task-title">Task Title</label>
+            <input name="task-title" type="text" id="task-title" required />
+          </div>
+          <div>
+            <label for="task-description">Task Description (Optional)</label>
+            <textarea id="task-description" name="task-description"></textarea>
+          </div>
+          <div>
+            <label for="task-status">Status</label>
+            <select name="task-status" id="task-status">
+              <option value="todo" selected>To Do</option>
+              <option value="ongoing">In Progress</option>
+              <option value="testing">Testing</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <button type="submit">Submit Task</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- The Loading Overlay -->
+    <div class="loading-overlay">
+      <div class="loading-content">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading...</div>
+      </div>
+    </div>
+
+    <!-- UPDATE MODAL -->
+
+    <!-- The Update Confirmation Modal -->
+    <div id="update-modal" class="update-modal-overlay">
+      <div class="update-modal-content">
+        <!-- Close button -->
+        <button id="closeModalBtn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon-arrow"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        <div class="text-center">
+          <form id="updateForm">
+            <h2>Please confirm that you want to move this task from</h2>
+            <div class="status-container">
+              <p id="fromStatus" class="status-pill from">ongoing</p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon-arrow"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <input type="text" name="" class="task-title" style="display: none;">
+              <input type="text" name="" class="task-description" style="display: none;">
+              
+              <p id="toStatus" class="status-pill to">done</p>
+              <p id="taskId" style="display: none;"></p>
+            </div>
+            <div class="button-container">
+              <button type="button" id="cancelBtn">Cancel</button>
+              <button type="submit" id="yesBtn">Yes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="./scripts/main.js" type="module"></script>
+  <script src="./scripts/skeleton.js"></script>
+  <span id="status-output">Task Created Successfully!</span>
 </html>
