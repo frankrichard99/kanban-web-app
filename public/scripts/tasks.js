@@ -64,7 +64,7 @@ const handleTaskUpdate = async (e) => {
   };
 
   console.log(taskData);
-  // Show loading sign BEFORE the request
+  // Show the loading sign BEFORE the request
   showLoading();
   try {
     const response = await sendUpdateRequest(taskData);
