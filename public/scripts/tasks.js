@@ -70,7 +70,7 @@ const handleTaskUpdate = async (e) => {
     const response = await sendUpdateRequest(taskData);
 
     if (response.status === 403) {
-      console.log("Access token expired, refreshing...");
+      console.log("Access token has expired, refreshing...");
       await refreshAccessToken();
       response = await sendUpdateRequest(taskData);
     }
